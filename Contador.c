@@ -12,8 +12,8 @@ sbit LCD_D5 at RB6_bit;
 sbit LCD_D6 at RB5_bit;
 sbit LCD_D7 at RB4_bit;
 
-sbit LCD_RS_Direction at TRISB3_bit;
-sbit LCD_EN_Direction at TRISB2_bit;
+sbit LCD_RS_Direction at TRISD0_bit;
+sbit LCD_EN_Direction at TRISD1_bit;
 
 sbit LCD_D4_Direction at TRISB7_bit;
 sbit LCD_D5_Direction at TRISB6_bit;
@@ -42,8 +42,8 @@ void main() {
         Lcd_Cmd(_LCD_CLEAR);               // Clear display
         Lcd_Cmd(_LCD_CURSOR_OFF);          // Cursor off
 
-       
-      while(1){
+             PORTD.RD2=1;
+      while(1){  /*
       if(Lactiv==0){
       PORTD.RD2=1;
       Lactiv=1;
@@ -51,7 +51,7 @@ void main() {
       if(Lactiv==1){
       PORTD.RD2=0;
         Lactiv=0;
-      }
+      }         */
       
             if(PORTE.RE0 ==0){
                activado1=1;
