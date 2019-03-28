@@ -1,4 +1,4 @@
-//Contador
+//Contador con sensor via infrarrojo, con pantalla LCD para PIC 16f887
 //Por Erick Renato Vega Cerón
 //Ingeniería en Sistemas Computacionales
 //Centro Universitario Hidalguense
