@@ -28,18 +28,31 @@ sbit LCD_D7_Direction at TRISB4_bit;
    int desactivado2=0;
    int contador1=0;
    int contador2=0;
+   int Lactiv=0;
 void main() {
 
        ANSEL = 0b00000000; // Digital
        ANSELH = 0;
        TRISE = 0b00000011; // PORTE.0 y PORTE.1 son configurados como entradas. Los demás como salidas
        PORTE = 0;
+       TRISD = 0b00000100; // PORTE.0 y PORTE.1 son configurados como entradas. Los demás como salidas
+       PORTD = 0;
         Lcd_Init();
+        Delay_us(500);
         Lcd_Cmd(_LCD_CLEAR);               // Clear display
         Lcd_Cmd(_LCD_CURSOR_OFF);          // Cursor off
 
        
       while(1){
+      if(Lactiv==0){
+      PORTD.RD2=1;
+      Lactiv=1;
+      }
+      if(Lactiv==1){
+      PORTD.RD2=0;
+        Lactiv=0;
+      }
+      
             if(PORTE.RE0 ==0){
                activado1=1;
             }
@@ -66,7 +79,7 @@ void main() {
                }
       Lcd_Out(1,6,contador1);
       Lcd_Out(2,6,contador2);
-      
+      Delay_us(1000);
       }
 
 
