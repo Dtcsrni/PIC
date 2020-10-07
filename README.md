@@ -1,2 +1,2 @@
 # PIC
-Programando PIC's con MikroC
+Sensor de movimiento y paso
