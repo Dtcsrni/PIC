@@ -1,0 +1,91 @@
+//Contador con sensor via infrarrojo, con pantalla LCD para PIC 16f887
+//Por Erick Renato Vega Cerón
+//Ingeniería en Sistemas Computacionales
+//Centro Universitario Hidalguense
+
+// Conexiones del módulo LCD
+sbit LCD_RS at RC0_bit;    //Mapear puerto RC0 a RS
+sbit LCD_EN at RC1_bit;    //Mapear puerto RC1 a EN
+
+sbit LCD_D4 at RB7_bit;   //Mapear D4 a RB7
+sbit LCD_D5 at RB6_bit;    //Mapear D5 a RB6
+sbit LCD_D6 at RB5_bit;   //Mapear D6 a RB5
+sbit LCD_D7 at RB4_bit;  //Mapear D7 a RB4
+//Definir direccion de escritura para bits
+sbit LCD_RS_Direction at TRISC0_bit;
+sbit LCD_EN_Direction at TRISC1_bit;
+
+sbit LCD_D4_Direction at TRISB7_bit;
+sbit LCD_D5_Direction at TRISB6_bit;
+sbit LCD_D6_Direction at TRISB5_bit;
+sbit LCD_D7_Direction at TRISB4_bit;
+
+// Final de las conexiones del módulo LCD
+//Variables de apoyo
+   int activado1=0;         //Bandera de activado
+   int activado2=0;
+   int desactivado1=0;         //Bandera de desactivado
+   int desactivado2=0;
+   int contador1=0;      //variables de contador
+   int contador2=0;
+   int botonActivo=0;
+   //Variables de texto
+   char txt[16];
+   char nombre[17] = "---Erick Vega---"  ;
+   char institucion[11] = "---CUH---";
+   char txt1[8]="P1";   //Texto P1
+   char txt3[8]="P2";   //Texto P2
+   char txt2[8];
+void main() {
+/////Configuracion de PINES
+       ANSEL = 0b00000000; // Pines analógicos como digitales
+       ANSELH = 0;
+       TRISE = 0b00000111; // PORTE.0, PORTE.1 y PORTE.2 son configurados como entradas. Los demas como salidas
+       PORTE = 0;                     //Se limpia el puerto
+       TRISD = 0b01000000; // PORTD.7 como entrada y el resto de PORTD como salidas
+       PORTD = 0;                     //Se limpia el puerto
+
+        Lcd_Init();                  //Se inicializa el módulo lcd
+        Delay_ms(500);                  //Espera de estabilización de LCD
+        Lcd_Out(1,1,institucion);         //Impresión de Bienvenida
+        Lcd_Out(2,1,nombre);
+        Delay_ms(1000);
+               // Cursor off
+         Lcd_Cmd(_LCD_CURSOR_OFF);     //Ocultar cursor
+
+                        while(1){
+                        //Se revisa el estado de cada boton y se coloca su valor correspondiente en la variable de boton
+                           if(Button(&PORTE, 0, 1, 1))
+                           {
+
+                                    botonActivo=1;
+                           }
+                           else   if(Button(&PORTE, 1, 1, 1))
+                           {        
+
+                                    botonActivo=2;
+                           }
+                           else   if(Button(&PORTE, 2, 1, 1))
+                           {
+
+                                    botonActivo=3;
+                           }
+                           else   if(Button(&PORTD, 7, 1, 1))
+                           {        
+
+                                    botonActivo=4;
+                           }
+                           if(botonActivo>0)
+                           {          Lcd_Cmd(_LCD_CLEAR);
+                                     Lcd_Out(1,1, "Opcion elegida:");
+                                     IntToStr(botonActivo, txt);
+                                     Lcd_Out(2,1, txt);
+                           }
+
+                          contador1++;
+                          PORTD.RD2=0;     //Prender LED en RD2
+                          delay_MS(500);
+                          PORTD.RD2=1;
+                          delay_MS(500);
+                        }
+     }
