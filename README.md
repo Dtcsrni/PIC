@@ -1,2 +1,2 @@
 # PIC
-Sensor de movimiento y paso
+Proyectos con microcontroladores PIC en lenguajes de alto nivel
